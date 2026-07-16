@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+/* Tailwind v4 Dark Mode */
+@custom-variant dark (&:where(.dark, .dark *));
+
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

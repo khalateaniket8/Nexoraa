@@ -1,0 +1,68 @@
+const courses = [
+  {
+    id: 1,
+    title: "React for Beginners",
+    description: "Learn React from scratch.",
+    category: "Development",
+    progress: 65,
+    image: "https://picsum.photos/300/200?random=1",
+  },
+  {
+    id: 2,
+    title: "Tailwind CSS",
+    description: "Build modern UI with Tailwind.",
+    category: "Design",
+    progress: 80,
+    image: "https://picsum.photos/300/200?random=2",
+  },
+  {
+    id: 3,
+    title: "AWS Cloud",
+    description: "Learn AWS fundamentals.",
+    category: "Cloud",
+    progress: 40,
+    image: "https://picsum.photos/300/200?random=3",
+  },
+  {
+    id: 4,
+    title: "JavaScript",
+    description: "Master JavaScript.",
+    category: "Programming",
+    progress: 90,
+    image: "https://picsum.photos/300/200?random=4",
+  },
+  {
+    id: 5,
+    title: "Docker",
+    description: "Containerization Basics.",
+    category: "DevOps",
+    progress: 55,
+    image: "https://picsum.photos/300/200?random=5",
+  },
+  {
+    id: 6,
+    title: "Python",
+    description: "Learn Python Programming.",
+    category: "Programming",
+    progress: 70,
+    image: "https://picsum.photos/300/200?random=6",
+  },
+  {
+    id: 7,
+    title: "UI/UX Design",
+    description: "Design beautiful interfaces.",
+    category: "Design",
+    progress: 30,
+    image: "https://picsum.photos/300/200?random=7",
+  },
+  {
+    id: 8,
+    title: "Figma",
+    description: "Master Figma for UI Design.",
+    category: "Design",
+    progress: 100,
+    image: "https://picsum.photos/300/200?random=8",
+  },
+];
+
+export default courses;
