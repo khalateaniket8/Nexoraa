@@ -9,6 +9,7 @@ import StatsCard from "./components/StatsCard";
 import CourseGrid from "./components/CourseGrid";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
+import CourseDetailsModal from "./components/CourseDetailsModal";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -26,6 +27,7 @@ import coursesData from "./data/courses";
 function Home() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
+  const [selectedCourse, setSelectedCourse] = useState(null);
 
   const filteredCourses = coursesData.filter((course) => {
     const matchesSearch = course.title
@@ -33,15 +35,13 @@ function Home() {
       .includes(search.toLowerCase());
 
     const matchesCategory =
-      category === "All" ||
-      course.category === category;
+      category === "All" || course.category === category;
 
     return matchesSearch && matchesCategory;
   });
 
   return (
-    <div className="bg-white text-black dark:bg-gray-900 dark:text-white transition-all duration-300">
-
+    <div className="bg-white dark:bg-gray-900 text-black dark:text-white transition-all duration-300">
       <HeroSection />
 
       <SearchBar
@@ -55,13 +55,11 @@ function Home() {
       />
 
       <section className="py-16 px-6 bg-gray-100 dark:bg-gray-800 transition-all duration-300">
-
-        <h2 className="text-4xl font-bold text-center mb-12 text-black dark:text-white">
+        <h2 className="text-4xl font-bold text-center mb-12">
           Learning Statistics
         </h2>
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-
           <StatsCard
             icon="📚"
             number="12"
@@ -85,27 +83,30 @@ function Home() {
             number="5"
             title="Certificates"
           />
-
         </div>
-
       </section>
 
-      <CourseGrid courses={filteredCourses} />
+      <CourseGrid
+        courses={filteredCourses}
+        onViewDetails={setSelectedCourse}
+      />
+
+      <CourseDetailsModal
+        course={selectedCourse}
+        onClose={() => setSelectedCourse(null)}
+      />
 
       <Footer />
-
     </div>
   );
 }
 
 function App() {
   return (
-    <div className="min-h-screen bg-white text-black dark:bg-gray-900 dark:text-white transition-all duration-300">
-
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-black dark:text-white transition-all duration-300">
       <Navbar />
 
       <Routes>
-
         <Route
           path="/"
           element={<Home />}
@@ -180,9 +181,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-
       </Routes>
-
     </div>
   );
 }

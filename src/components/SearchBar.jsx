@@ -2,25 +2,37 @@ import { FaSearch } from "react-icons/fa";
 
 const SearchBar = ({ search, setSearch }) => {
   return (
-    <div className="max-w-3xl mx-auto my-12 px-6">
+    <section className="py-10 px-6 bg-gray-100 dark:bg-gray-800 transition-all duration-300">
 
-      <div className="flex bg-white rounded-lg shadow-lg overflow-hidden">
+      <div className="max-w-4xl mx-auto">
 
-        <input
-          type="text"
-          placeholder="Search courses..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 px-5 py-4 outline-none"
-        />
+        <h2 className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white">
+          Find Your Favorite Course
+        </h2>
 
-        <button className="bg-blue-600 text-white px-6">
-          <FaSearch />
-        </button>
+        <div className="relative">
+
+          <FaSearch
+            className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 text-xl"
+          />
+
+          <input
+            type="text"
+            placeholder="Search React, Python, AWS, Tailwind..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-14 pr-5 py-4 rounded-xl border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none shadow-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-300 transition"
+          />
+
+        </div>
+
+        <p className="text-center text-gray-500 dark:text-gray-300 mt-4">
+          Search from our collection of professional online courses.
+        </p>
 
       </div>
 
-    </div>
+    </section>
   );
 };
 

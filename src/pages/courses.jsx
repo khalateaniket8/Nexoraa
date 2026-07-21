@@ -1,11 +1,16 @@
+// ...existing code...
 import { useState } from "react";
 import CourseGrid from "../components/CourseGrid";
+import CourseDetailsModal from "../components/CourseDetailsModal";
 import courses from "../data/courses";
 
 const Courses = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [sort, setSort] = useState("default");
+
+  // Modal State
+  const [selectedCourse, setSelectedCourse] = useState(null);
 
   const categories = [
     "All",
@@ -41,14 +46,14 @@ const Courses = () => {
     });
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-6">
+    <div className="h-screen overflow-y-auto bg-gray-100 dark:bg-gray-900 py-10 px-6 transition-all duration-300">
 
-      <h1 className="text-4xl font-bold text-center mb-10">
+      <h1 className="text-4xl font-bold text-center mb-10 dark:text-white">
         All Courses
       </h1>
 
       {/* Search + Filter */}
-      <div className="max-w-6xl mx-auto bg-white p-6 rounded-xl shadow-md mb-10">
+      <div className="max-w-6xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md mb-10">
 
         <div className="grid md:grid-cols-3 gap-5">
 
@@ -57,13 +62,13 @@ const Courses = () => {
             placeholder="Search Course..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="border p-3 rounded-lg"
+            className="border p-3 rounded-lg dark:bg-gray-700 dark:text-white"
           />
 
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="border p-3 rounded-lg"
+            className="border p-3 rounded-lg dark:bg-gray-700 dark:text-white"
           >
             {categories.map((cat, index) => (
               <option
@@ -78,38 +83,37 @@ const Courses = () => {
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value)}
-            className="border p-3 rounded-lg"
+            className="border p-3 rounded-lg dark:bg-gray-700 dark:text-white"
           >
-            <option value="default">
-              Default
-            </option>
-
-            <option value="az">
-              A - Z
-            </option>
-
-            <option value="za">
-              Z - A
-            </option>
-
-            <option value="progress">
-              Highest Progress
-            </option>
-
+            <option value="default">Default</option>
+            <option value="az">A - Z</option>
+            <option value="za">Z - A</option>
+            <option value="progress">Highest Progress</option>
           </select>
 
         </div>
 
-        <p className="mt-5 text-gray-600 font-semibold">
+        <p className="mt-5 font-semibold text-gray-700 dark:text-gray-300">
           Total Courses Found : {filteredCourses.length}
         </p>
 
       </div>
 
-      <CourseGrid courses={filteredCourses} />
+      {/* Course Grid */}
+      <CourseGrid
+        courses={filteredCourses}
+        onViewDetails={setSelectedCourse}
+      />
+
+      {/* Modal */}
+      <CourseDetailsModal
+        course={selectedCourse}
+        onClose={() => setSelectedCourse(null)}
+      />
 
     </div>
   );
 };
 
 export default Courses;
+// ...existing code...

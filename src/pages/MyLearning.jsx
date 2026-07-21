@@ -12,76 +12,202 @@ const MyLearning = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-6">
-      <h1 className="text-4xl font-bold text-center mb-10">
-        My Learning
-      </h1>
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 dark:text-white py-10 px-6">
 
-      {courses.length === 0 ? (
-        <div className="text-center mt-20">
-          <h2 className="text-2xl text-gray-500">
-            No Enrolled Courses
-          </h2>
+      <div className="max-w-7xl mx-auto">
 
-          <Link
-            to="/courses"
-            className="inline-block mt-6 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
-          >
-            Explore Courses
-          </Link>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {courses.map((course) => (
-            <div
-              key={course.id}
-              className="bg-white rounded-xl shadow-lg overflow-hidden"
+        <h1 className="text-4xl font-bold text-center mb-3">
+          My Learning
+        </h1>
+
+        <p className="text-center text-gray-500 dark:text-gray-300 mb-10">
+          Continue your learning journey 🚀
+        </p>
+
+        {courses.length === 0 ? (
+
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-12 text-center">
+
+            <h2 className="text-3xl font-bold mb-4">
+              📚 No Enrolled Courses
+            </h2>
+
+            <p className="text-gray-500 dark:text-gray-300 mb-8">
+              Start learning by enrolling in your first course.
+            </p>
+
+            <Link
+              to="/courses"
+              className="inline-block bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700 transition"
             >
-              <img
-                src={course.image}
-                alt={course.title}
-                className="w-full h-48 object-cover"
-              />
+              Explore Courses
+            </Link>
 
-              <div className="p-5">
-                <h2 className="text-2xl font-bold">
-                  {course.title}
-                </h2>
+          </div>
 
-                <p className="text-gray-600 mt-2">
-                  {course.description}
-                </p>
+        ) : (
 
-                <span className="inline-block mt-3 bg-blue-100 text-blue-700 px-3 py-1 rounded-full">
-                  {course.category}
-                </span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                <div className="mt-5">
-                  <p className="mb-2">
-                    Progress: {course.progress}%
+            {courses.map((course) => (
+
+              <div
+                key={course.id}
+                className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300"
+              >
+
+                <img
+                  src={course.image}
+                  alt={course.title}
+                  className="w-full h-52 object-cover"
+                />
+
+                <div className="p-6">
+
+                  <h2 className="text-2xl font-bold">
+                    {course.title}
+                  </h2>
+
+                  <p className="mt-3 text-gray-600 dark:text-gray-300">
+                    {course.description}
                   </p>
 
-                  <div className="w-full bg-gray-300 rounded-full h-3">
-                    <div
-                      className="bg-blue-600 h-3 rounded-full"
-                      style={{
-                        width: `${course.progress}%`,
-                      }}
-                    ></div>
+                  <div className="flex justify-between items-center mt-5">
+
+                    <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+                      {course.category}
+                    </span>
+
+                    <span className="font-bold text-green-600">
+                      ⭐ {course.rating || 4.8}
+                    </span>
+
                   </div>
+
+                  {/* Progress */}
+
+                  <div className="mt-6">
+
+                    <div className="flex justify-between mb-2">
+
+                      <span>Progress</span>
+
+                      <span>{course.progress}%</span>
+
+                    </div>
+
+                    <div className="w-full bg-gray-300 rounded-full h-3">
+
+                      <div
+                        className="bg-blue-600 h-3 rounded-full transition-all duration-500"
+                        style={{
+                          width: `${course.progress}%`,
+                        }}
+                      ></div>
+
+                    </div>
+
+                  </div>
+
+                  {/* Buttons */}
+
+                  <div className="grid grid-cols-2 gap-3 mt-8">
+
+                    <Link
+                      to={`/learning/${course.id}`}
+                      className="bg-green-600 text-white text-center py-3 rounded-lg hover:bg-green-700 transition"
+                    >
+                      Continue
+                    </Link>
+
+                    {course.progress === 100 ? (
+
+                      <Link
+                        to={`/certificate/${course.title}`}
+                        className="bg-purple-600 text-white text-center py-3 rounded-lg hover:bg-purple-700 transition"
+                      >
+                        Certificate
+                      </Link>
+
+                    ) : (
+
+                      <button
+                        disabled
+                        className="bg-gray-300 text-gray-600 py-3 rounded-lg cursor-not-allowed"
+                      >
+                        Locked
+                      </button>
+
+                    )}
+
+                  </div>
+
+                  {/* Extra Details */}
+
+                  <div className="grid grid-cols-2 gap-4 mt-8 text-sm">
+
+                    <div>
+
+                      <p className="text-gray-500 dark:text-gray-400">
+                        Instructor
+                      </p>
+
+                      <p className="font-semibold">
+                        {course.instructor || "John Doe"}
+                      </p>
+
+                    </div>
+
+                    <div>
+
+                      <p className="text-gray-500 dark:text-gray-400">
+                        Duration
+                      </p>
+
+                      <p className="font-semibold">
+                        {course.duration || "8 Weeks"}
+                      </p>
+
+                    </div>
+
+                    <div>
+
+                      <p className="text-gray-500 dark:text-gray-400">
+                        Lessons
+                      </p>
+
+                      <p className="font-semibold">
+                        {course.lessons || 40}
+                      </p>
+
+                    </div>
+
+                    <div>
+
+                      <p className="text-gray-500 dark:text-gray-400">
+                        Level
+                      </p>
+
+                      <p className="font-semibold">
+                        {course.level || "Beginner"}
+                      </p>
+
+                    </div>
+
+                  </div>
+
                 </div>
 
-                <Link
-                  to={`/course/${course.id}`}
-                  className="block text-center mt-6 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700"
-                >
-                  Continue Learning
-                </Link>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+
+            ))}
+
+          </div>
+
+        )}
+
+      </div>
+
     </div>
   );
 };
