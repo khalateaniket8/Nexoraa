@@ -6,7 +6,6 @@ import {
   Star,
 } from "lucide-react";
 
-import DashboardCard from "../components/dashboard/DashboardCard";
 import ProgressSection from "../components/dashboard/ProgressSection";
 import RecentActivity from "../components/dashboard/RecentActivity";
 
