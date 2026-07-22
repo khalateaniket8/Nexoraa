@@ -1,7 +1,20 @@
 import { Link } from "react-router-dom";
+import {
+  BookOpen,
+  Heart,
+  Award,
+  Star,
+} from "lucide-react";
+
+import DashboardCard from "../components/dashboard/DashboardCard";
+import ProgressSection from "../components/dashboard/ProgressSection";
+import RecentActivity from "../components/dashboard/RecentActivity";
 
 const Dashboard = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user =
+    JSON.parse(localStorage.getItem("user")) || {
+      name: "Student",
+    };
 
   const enrolled =
     JSON.parse(localStorage.getItem("enrolledCourses")) || [];
@@ -9,177 +22,123 @@ const Dashboard = () => {
   const wishlist =
     JSON.parse(localStorage.getItem("wishlist")) || [];
 
-  const activities = [
-    "Completed React Basics",
-    "Started Tailwind CSS",
-    "Earned JavaScript Certificate",
-    "Added Docker Course to Wishlist",
-  ];
-
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 dark:text-white p-8">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
 
-      <h1 className="text-4xl font-bold">
-        Student Dashboard
-      </h1>
+      <div className="mx-auto max-w-7xl px-6 py-10">
 
-      <p className="mt-2 text-lg">
-        Welcome,
-        <span className="text-blue-600 font-bold">
-          {" "}
-          {user?.name || "Student"}
-        </span>
-      </p>
+        {/* Header */}
 
-      {/* Statistics */}
+        <div className="mb-10">
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+            Welcome Back,
+            <span className="text-blue-600">
+              {" "}
+              {user.name}
+            </span>
+            👋
+          </h1>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-
-          <h2 className="text-4xl">📚</h2>
-
-          <h3 className="text-3xl font-bold mt-4">
-            {enrolled.length}
-          </h3>
-
-          <p className="text-gray-500">
-            Enrolled Courses
+          <p className="mt-3 text-gray-600 dark:text-gray-300">
+            Continue your learning journey and track your progress.
           </p>
 
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+        {/* Statistics */}
 
-          <h2 className="text-4xl">❤️</h2>
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
 
-          <h3 className="text-3xl font-bold mt-4">
-            {wishlist.length}
-          </h3>
+          <DashboardCard
+            icon={<BookOpen />}
+            title="Enrolled Courses"
+            value={enrolled.length}
+            color="text-blue-600"
+          />
 
-          <p className="text-gray-500">
-            Wishlist
-          </p>
+          <DashboardCard
+            icon={<Heart />}
+            title="Wishlist"
+            value={wishlist.length}
+            color="text-pink-600"
+          />
 
-        </div>
+          <DashboardCard
+            icon={<Award />}
+            title="Certificates"
+            value="5"
+            color="text-yellow-500"
+          />
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-
-          <h2 className="text-4xl">🏆</h2>
-
-          <h3 className="text-3xl font-bold mt-4">
-            5
-          </h3>
-
-          <p className="text-gray-500">
-            Certificates
-          </p>
-
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
-
-          <h2 className="text-4xl">⭐</h2>
-
-          <h3 className="text-3xl font-bold mt-4">
-            4.9
-          </h3>
-
-          <p className="text-gray-500">
-            Average Rating
-          </p>
+          <DashboardCard
+            icon={<Star />}
+            title="Average Rating"
+            value="4.9"
+            color="text-green-600"
+          />
 
         </div>
 
-      </div>
+        {/* Progress */}
 
-      {/* Progress */}
+        <div className="mt-10">
 
-      <div className="bg-white dark:bg-gray-800 mt-10 rounded-xl shadow p-6">
-
-        <h2 className="text-2xl font-bold mb-5">
-          Overall Learning Progress
-        </h2>
-
-        <div className="w-full bg-gray-300 rounded-full h-5">
-
-          <div
-            className="bg-blue-600 h-5 rounded-full"
-            style={{
-              width: "75%",
-            }}
-          ></div>
+          <ProgressSection
+            progress={75}
+            completed={9}
+            total={12}
+          />
 
         </div>
 
-        <p className="mt-3 font-semibold">
-          75% Completed
-        </p>
+        {/* Activity */}
 
-      </div>
+        <div className="mt-10">
 
-      {/* Recent Activity */}
+          <RecentActivity />
 
-      <div className="bg-white dark:bg-gray-800 mt-10 rounded-xl shadow p-6">
+        </div>
 
-        <h2 className="text-2xl font-bold mb-5">
-          Recent Activity
-        </h2>
+        {/* Quick Actions */}
 
-        <div className="space-y-4">
+        <div className="mt-10 rounded-2xl bg-white p-6 shadow-lg dark:bg-gray-800">
 
-          {activities.map((item, index) => (
+          <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
+            Quick Actions
+          </h2>
 
-            <div
-              key={index}
-              className="border-l-4 border-blue-600 pl-4"
+          <div className="flex flex-wrap gap-4">
+
+            <Link
+              to="/courses"
+              className="rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition hover:bg-blue-700"
             >
-              ✅ {item}
-            </div>
+              Browse Courses
+            </Link>
 
-          ))}
+            <Link
+              to="/learning"
+              className="rounded-xl bg-green-600 px-6 py-3 font-semibold text-white transition hover:bg-green-700"
+            >
+              Continue Learning
+            </Link>
 
-        </div>
+            <Link
+              to="/wishlist"
+              className="rounded-xl bg-pink-600 px-6 py-3 font-semibold text-white transition hover:bg-pink-700"
+            >
+              Wishlist
+            </Link>
 
-      </div>
+            <Link
+              to="/profile"
+              className="rounded-xl bg-gray-700 px-6 py-3 font-semibold text-white transition hover:bg-gray-800"
+            >
+              Profile
+            </Link>
 
-      {/* Quick Actions */}
-
-      <div className="bg-white dark:bg-gray-800 mt-10 rounded-xl shadow p-6">
-
-        <h2 className="text-2xl font-bold mb-6">
-          Quick Actions
-        </h2>
-
-        <div className="flex flex-wrap gap-5">
-
-          <Link
-            to="/courses"
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
-          >
-            Browse Courses
-          </Link>
-
-          <Link
-            to="/mylearning"
-            className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700"
-          >
-            Continue Learning
-          </Link>
-
-          <Link
-            to="/wishlist"
-            className="bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700"
-          >
-            Wishlist
-          </Link>
-
-          <Link
-            to="/profile"
-            className="bg-gray-700 text-white px-6 py-3 rounded-lg hover:bg-gray-800"
-          >
-            Profile
-          </Link>
+          </div>
 
         </div>
 

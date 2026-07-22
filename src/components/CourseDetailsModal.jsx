@@ -1,4 +1,12 @@
 import { useEffect, useRef } from "react";
+import {
+  X,
+  Star,
+  Clock3,
+  Users,
+  Globe,
+  BookOpen,
+} from "lucide-react";
 
 const CourseDetailsModal = ({ course, onClose }) => {
   const open = Boolean(course);
@@ -6,14 +14,16 @@ const CourseDetailsModal = ({ course, onClose }) => {
 
   useEffect(() => {
     if (!open) return;
-    const handleKey = (event) => {
-      if (event.key === "Escape") {
+
+    const handleKey = (e) => {
+      if (e.key === "Escape") {
         onClose();
       }
     };
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+
     document.addEventListener("keydown", handleKey);
 
     return () => {
@@ -26,76 +36,255 @@ const CourseDetailsModal = ({ course, onClose }) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
       onClick={onClose}
-      aria-modal="true"
-      role="dialog"
-      aria-label={course?.title || "Course details"}
     >
       <div
         ref={modalRef}
-        className="relative w-full max-w-3xl overflow-hidden rounded-3xl bg-white shadow-2xl dark:bg-gray-900"
-        onClick={(event) => event.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-5xl overflow-hidden rounded-3xl bg-white shadow-2xl dark:bg-gray-900"
       >
+        {/* Close Button */}
+
         <button
-          type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 rounded-full p-2 text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-gray-300 dark:hover:bg-gray-800"
-          aria-label="Close course details"
+          className="absolute right-5 top-5 z-50 rounded-full bg-white p-2 shadow hover:bg-red-500 hover:text-white dark:bg-gray-800"
         >
-          <span aria-hidden="true">✕</span>
-          <span className="sr-only">Close course details</span>
+          <X size={22} />
         </button>
 
-        <div className="max-h-[90vh] overflow-y-auto p-6 sm:p-8">
-          <div className="flex flex-col gap-6 md:flex-row">
-            <img
-              src={course.image}
-              alt={course.title}
-              className="h-48 w-full rounded-3xl object-cover md:w-72"
-            />
+        <div className="max-h-[90vh] overflow-y-auto">
 
-            <div className="space-y-4">
-              <div>
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">{course.title}</h2>
-                <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">
-                  Category: {course.category} • Status: {course.status || "In Progress"}
-                </p>
-              </div>
+          {/* Top Section */}
 
-              <p className="text-gray-700 dark:text-gray-200">{course.description}</p>
+          <div className="grid lg:grid-cols-2 gap-8 p-8">
 
-              <div className="rounded-3xl bg-gray-100 p-4 dark:bg-gray-800">
-                <p className="text-sm text-gray-500 dark:text-gray-400">Progress</p>
-                <div className="mt-2 h-3 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
-                  <div className="h-full rounded-full bg-blue-600" style={{ width: `${course.progress}%` }} />
+            {/* Left */}
+
+            <div>
+
+              <img
+                src={course.image}
+                alt={course.title}
+                className="h-72 w-full rounded-2xl object-cover shadow-lg"
+              />
+
+              <div className="mt-6 grid grid-cols-2 gap-4">
+
+                <div className="rounded-xl bg-gray-100 p-4 dark:bg-gray-800">
+                  <div className="flex items-center gap-2">
+                    <Clock3 size={18} />
+                    <span>{course.duration}</span>
+                  </div>
                 </div>
-                <p className="mt-2 text-sm font-medium text-gray-900 dark:text-white">{course.progress}% complete</p>
+
+                <div className="rounded-xl bg-gray-100 p-4 dark:bg-gray-800">
+                  <div className="flex items-center gap-2">
+                    <Users size={18} />
+                    <span>{course.students}+ Students</span>
+                  </div>
+                </div>
+
+                <div className="rounded-xl bg-gray-100 p-4 dark:bg-gray-800">
+                  <div className="flex items-center gap-2">
+                    <Globe size={18} />
+                    <span>{course.language}</span>
+                  </div>
+                </div>
+
+                <div className="rounded-xl bg-gray-100 p-4 dark:bg-gray-800">
+                  <div className="flex items-center gap-2">
+                    <BookOpen size={18} />
+                    <span>{course.lessons} Lessons</span>
+                  </div>
+                </div>
+
               </div>
 
-              <div className="flex flex-wrap gap-3">
-                <button className="rounded-2xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-[0.98]">
+            </div>
+
+            {/* Right */}
+
+            <div>
+
+              <span className="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-700">
+                {course.category}
+              </span>
+
+              <h2 className="mt-5 text-4xl font-bold text-gray-900 dark:text-white">
+                {course.title}
+              </h2>
+
+              <p className="mt-5 leading-8 text-gray-600 dark:text-gray-300">
+                {course.description}
+              </p>
+
+              {/* Rating */}
+
+              <div className="mt-6 flex flex-wrap items-center gap-5">
+
+                <div className="flex items-center gap-2 text-yellow-500">
+                  <Star
+                    size={20}
+                    fill="currentColor"
+                  />
+                  <span className="font-semibold">
+                    {course.rating}
+                  </span>
+                </div>
+
+                <span className="text-3xl font-bold text-green-600">
+                  {course.price}
+                </span>
+
+                <span className="rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700">
+                  {course.level}
+                </span>
+
+              </div>
+
+              {/* Progress */}
+
+              <div className="mt-8">
+
+                <div className="mb-2 flex justify-between">
+
+                  <span className="font-semibold dark:text-white">
+                    Course Progress
+                  </span>
+
+                  <span className="font-bold text-blue-600">
+                    {course.progress}%
+                  </span>
+
+                </div>
+
+                <div className="h-4 w-full rounded-full bg-gray-200 dark:bg-gray-700">
+
+                  <div
+                    className="h-4 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600"
+                    style={{
+                      width: `${course.progress}%`,
+                    }}
+                  />
+
+                </div>
+
+              </div>
+                            {/* Action Buttons */}
+
+              <div className="mt-8 flex flex-wrap gap-4">
+
+                <button className="flex-1 rounded-xl bg-blue-600 px-6 py-4 font-semibold text-white transition hover:bg-blue-700">
                   Continue Learning
                 </button>
-                <button className="rounded-2xl border border-gray-300 px-5 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800">
-                  Add to Wishlist
+
+                <button className="flex-1 rounded-xl border border-pink-500 px-6 py-4 font-semibold text-pink-600 transition hover:bg-pink-500 hover:text-white">
+                  ❤️ Add to Wishlist
                 </button>
+
               </div>
+
+              {/* Instructor */}
+
+              <div className="mt-8 rounded-2xl bg-gray-100 p-5 dark:bg-gray-800">
+
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                  Instructor
+                </h3>
+
+                <p className="mt-2 text-gray-700 dark:text-gray-300">
+                  👨‍🏫 {course.instructor}
+                </p>
+
+              </div>
+
+              {/* Course Details */}
+
+              <div className="mt-8 grid grid-cols-2 gap-4">
+
+                <div className="rounded-xl bg-blue-50 p-4 dark:bg-gray-800">
+                  <h4 className="font-semibold text-blue-600">
+                    Language
+                  </h4>
+
+                  <p className="mt-2 dark:text-white">
+                    {course.language}
+                  </p>
+                </div>
+
+                <div className="rounded-xl bg-green-50 p-4 dark:bg-gray-800">
+                  <h4 className="font-semibold text-green-600">
+                    Certificate
+                  </h4>
+
+                  <p className="mt-2 dark:text-white">
+                    {course.certificate ? "Available" : "Not Available"}
+                  </p>
+                </div>
+
+              </div>
+
             </div>
+
           </div>
 
-          <div className="mt-8 space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">What you'll learn</h3>
-            <ul className="list-disc space-y-2 pl-5 text-gray-700 dark:text-gray-200">
-              <li>Core concepts and fundamentals</li>
-              <li>Practical examples and exercises</li>
-              <li>Project-based learning</li>
-              <li>Best practices and tips</li>
-              <li>Support for real-world workflows</li>
-            </ul>
+          {/* What You'll Learn */}
+
+          <div className="border-t border-gray-200 p-8 dark:border-gray-700">
+
+            <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
+              📚 What You'll Learn
+            </h2>
+
+            <div className="grid gap-4 md:grid-cols-2">
+
+              <div className="rounded-xl bg-gray-100 p-4 dark:bg-gray-800">
+                ✅ Build Real World Projects
+              </div>
+
+              <div className="rounded-xl bg-gray-100 p-4 dark:bg-gray-800">
+                ✅ Understand Core Concepts
+              </div>
+
+              <div className="rounded-xl bg-gray-100 p-4 dark:bg-gray-800">
+                ✅ Learn Industry Best Practices
+              </div>
+
+              <div className="rounded-xl bg-gray-100 p-4 dark:bg-gray-800">
+                ✅ Become Job Ready
+              </div>
+
+            </div>
+
           </div>
+
+          {/* Requirements */}
+
+          <div className="border-t border-gray-200 p-8 dark:border-gray-700">
+
+            <h2 className="mb-5 text-2xl font-bold text-gray-900 dark:text-white">
+              📌 Requirements
+            </h2>
+
+            <ul className="list-disc space-y-3 pl-6 text-gray-700 dark:text-gray-300">
+
+              <li>Basic Computer Knowledge</li>
+
+              <li>No Prior Experience Required</li>
+
+              <li>Internet Connection</li>
+
+              <li>Learning Mindset 😊</li>
+
+            </ul>
+
+          </div>
+
         </div>
+
       </div>
+
     </div>
   );
 };

@@ -1,16 +1,23 @@
 import { useState } from "react";
+import {
+  Heart,
+  Clock3,
+  Star,
+  Users,
+  IndianRupee,
+} from "lucide-react";
 
 const CourseCard = ({ course, onViewDetails }) => {
   const [liked, setLiked] = useState(false);
 
   const addWishlist = () => {
-    let wishlist =
+    const wishlist =
       JSON.parse(localStorage.getItem("wishlist")) || [];
 
     const exist = wishlist.find((item) => item.id === course.id);
 
     if (exist) {
-      alert("Already Added To Wishlist");
+      alert("Course already exists in wishlist.");
       return;
     }
 
@@ -23,39 +30,81 @@ const CourseCard = ({ course, onViewDetails }) => {
 
     setLiked(true);
 
-    alert("Added To Wishlist ❤️");
+    alert("Course added to Wishlist ❤️");
   };
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
+    <div className="group overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-gray-900">
 
-      {/* Course Image */}
-      <img
-        src={course.image}
-        alt={course.title}
-        className="w-full h-48 object-cover"
-      />
+      {/* Image */}
 
-      {/* Course Content */}
-      <div className="p-5">
+      <div className="relative overflow-hidden">
+
+        <img
+          src={course.image}
+          alt={course.title}
+          className="h-56 w-full object-cover transition duration-500 group-hover:scale-110"
+        />
+
+        <span className="absolute left-4 top-4 rounded-full bg-blue-600 px-3 py-1 text-sm font-semibold text-white">
+          {course.category}
+        </span>
+
+      </div>
+
+      {/* Content */}
+
+      <div className="p-6">
 
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           {course.title}
         </h2>
 
-        <p className="text-gray-600 dark:text-gray-300 mt-2 line-clamp-3">
+        <p className="mt-3 line-clamp-3 text-gray-600 dark:text-gray-300">
           {course.description}
         </p>
 
-        {/* Category */}
-        <span className="inline-block mt-3 bg-blue-100 text-blue-700 px-3 py-1 rounded-full">
-          {course.category}
-        </span>
+        {/* Details */}
+
+        <div className="mt-5 flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-300">
+
+          <div className="flex items-center gap-1">
+            <Clock3 size={16} />
+            {course.duration || "8 Weeks"}
+          </div>
+
+          <div className="flex items-center gap-1">
+            <Users size={16} />
+            {course.students || "1200+"}
+          </div>
+
+          <div className="flex items-center gap-1 text-yellow-500">
+            <Star size={16} fill="currentColor" />
+            {course.rating || "4.8"}
+          </div>
+
+        </div>
+
+        {/* Price */}
+
+        <div className="mt-5 flex items-center gap-2">
+
+          <IndianRupee
+            size={20}
+            className="text-green-600"
+          />
+
+          <span className="text-2xl font-bold text-green-600">
+            {course.price || "999"}
+          </span>
+
+        </div>
 
         {/* Progress */}
-        <div className="mt-5">
 
-          <div className="flex justify-between mb-2">
+        <div className="mt-6">
+
+          <div className="mb-2 flex justify-between">
 
             <span className="font-medium dark:text-white">
               Progress
@@ -67,34 +116,42 @@ const CourseCard = ({ course, onViewDetails }) => {
 
           </div>
 
-          <div className="w-full bg-gray-300 rounded-full h-3">
+          <div className="h-3 w-full rounded-full bg-gray-200 dark:bg-gray-700">
 
             <div
-              className="bg-blue-600 h-3 rounded-full transition-all duration-500"
+              className="h-3 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 transition-all duration-700"
               style={{
                 width: `${course.progress}%`,
               }}
-            ></div>
+            />
 
           </div>
 
         </div>
 
         {/* Buttons */}
-        <div className="flex flex-wrap gap-3 mt-6">
+
+        <div className="mt-7 flex gap-3">
 
           <button
             onClick={() => onViewDetails(course)}
-            className="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 active:scale-95 transition"
+            className="flex-1 rounded-xl bg-blue-600 py-3 font-semibold text-white transition hover:bg-blue-700"
           >
             View Details
           </button>
 
           <button
             onClick={addWishlist}
-            className="flex-1 bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 focus:ring-4 focus:ring-pink-300 active:scale-95 transition"
+            className={`rounded-xl px-4 transition ${
+              liked
+                ? "bg-red-500 text-white"
+                : "bg-gray-100 hover:bg-red-500 hover:text-white dark:bg-gray-800"
+            }`}
           >
-            {liked ? "❤️ Added" : "🤍 Wishlist"}
+            <Heart
+              size={22}
+              fill={liked ? "white" : "none"}
+            />
           </button>
 
         </div>

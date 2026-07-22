@@ -1,89 +1,189 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  Search,
+  Moon,
+  Sun,
+  User,
+  Menu,
+  X,
+} from "lucide-react";
 import NotificationButton from "./NotificationButton";
 
 const Navbar = () => {
   const [theme, setTheme] = useState("light");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
   }, [theme]);
 
-  const handleSearchClick = () => {
-    console.log("Search clicked");
-  };
-
-  const handleProfileClick = () => {
-    window.location.href = "/profile";
-  };
-
   return (
-    <nav className="sticky top-0 z-40 border-b border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-6">
-          <div className="text-2xl font-bold text-blue-600">Nexoraa</div>
+    <nav className="sticky top-0 z-50 border-b border-gray-200 bg-white/90 backdrop-blur-lg shadow-sm dark:bg-gray-900/90 dark:border-gray-800">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
 
-          <div className="hidden items-center gap-4 text-sm font-medium text-gray-700 dark:text-gray-200 md:flex">
-            <a href="/" className="hover:text-blue-600 dark:hover:text-white">Home</a>
-            <a href="/courses" className="hover:text-blue-600 dark:hover:text-white">Courses</a>
-            <a href="/wishlist" className="hover:text-blue-600 dark:hover:text-white">Wishlist</a>
-            <a href="/learning" className="hover:text-blue-600 dark:hover:text-white">My Learning</a>
-            <a href="/dashboard" className="hover:text-blue-600 dark:hover:text-white">Dashboard</a>
-          </div>
+        {/* Logo */}
+        <Link
+          to="/"
+          className="text-2xl font-extrabold text-blue-600"
+        >
+          LearnSphere
+        </Link>
+
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center gap-6 font-medium">
+
+          <Link
+            to="/"
+            className="hover:text-blue-600 transition"
+          >
+            Home
+          </Link>
+
+          <Link
+            to="/courses"
+            className="hover:text-blue-600 transition"
+          >
+            Courses
+          </Link>
+
+          <Link
+            to="/dashboard"
+            className="hover:text-blue-600 transition"
+          >
+            Dashboard
+          </Link>
+
+          <Link
+            to="/wishlist"
+            className="hover:text-blue-600 transition"
+          >
+            Wishlist
+          </Link>
+
+          <Link
+            to="/learning"
+            className="hover:text-blue-600 transition"
+          >
+            My Learning
+          </Link>
+
         </div>
 
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setTheme("light")}
-            className={`rounded-lg px-3 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              theme === "light"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
-            }`}
-          >
-            Light
-          </button>
+        {/* Right Side */}
+        <div className="flex items-center gap-3">
+
+          {/* Search */}
+
+          <div className="hidden lg:flex items-center rounded-lg border border-gray-300 px-3 py-2 dark:border-gray-700">
+
+            <Search size={18} />
+
+            <input
+              type="text"
+              placeholder="Search courses..."
+              className="ml-2 w-48 bg-transparent outline-none"
+            />
+
+          </div>
+
+          {/* Dark Mode */}
 
           <button
-            type="button"
-            onClick={() => setTheme("dark")}
-            className={`rounded-lg px-3 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              theme === "dark"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
-            }`}
+            onClick={() =>
+              setTheme(theme === "light" ? "dark" : "light")
+            }
+            className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700"
           >
-            Dark
+            {theme === "light" ? (
+              <Moon size={20} />
+            ) : (
+              <Sun size={20} />
+            )}
           </button>
 
-          <button
-            type="button"
-            onClick={handleSearchClick}
-            className="hidden h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:inline-flex"
-            aria-label="Open search"
-          >
-            🔍
-          </button>
+          {/* Notification */}
 
           <NotificationButton />
 
-          <button
-            type="button"
-            onClick={handleProfileClick}
-            className="h-10 w-10 rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            aria-label="Open profile"
+          {/* Profile */}
+
+          <Link
+            to="/profile"
+            className="rounded-full p-2 hover:bg-gray-200 dark:hover:bg-gray-700"
           >
-            👤
-          </button>
+            <User size={20} />
+          </Link>
+
+          {/* Logout */}
 
           <button
-            type="button"
-            className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="hidden md:block rounded-lg bg-red-600 px-4 py-2 text-white hover:bg-red-700 transition"
           >
             Logout
           </button>
+
+          {/* Mobile Menu */}
+
+          <button
+            className="md:hidden"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            {menuOpen ? <X /> : <Menu />}
+          </button>
+
         </div>
       </div>
+
+      {/* Mobile Menu */}
+
+      {menuOpen && (
+        <div className="border-t bg-white dark:bg-gray-900 md:hidden">
+
+          <Link
+            to="/"
+            className="block px-5 py-3 hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
+            Home
+          </Link>
+
+          <Link
+            to="/courses"
+            className="block px-5 py-3 hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
+            Courses
+          </Link>
+
+          <Link
+            to="/dashboard"
+            className="block px-5 py-3 hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
+            Dashboard
+          </Link>
+
+          <Link
+            to="/wishlist"
+            className="block px-5 py-3 hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
+            Wishlist
+          </Link>
+
+          <Link
+            to="/learning"
+            className="block px-5 py-3 hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
+            My Learning
+          </Link>
+
+          <Link
+            to="/profile"
+            className="block px-5 py-3 hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
+            Profile
+          </Link>
+
+        </div>
+      )}
     </nav>
   );
 };
